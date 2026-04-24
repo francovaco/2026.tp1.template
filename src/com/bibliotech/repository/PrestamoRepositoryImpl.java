@@ -1,10 +1,12 @@
 package com.bibliotech.repository;
 
+import com.bibliotech.model.Devolucion;
 import com.bibliotech.model.Prestamo;
 import java.util.*;
 
 public class PrestamoRepositoryImpl implements IPrestamoRepository {
     private final Map<String, Prestamo> almacen = new HashMap<>();
+    private final List<Devolucion> historial = new ArrayList<>();
 
     @Override
     public void guardar(Prestamo prestamo) {
@@ -31,5 +33,16 @@ public class PrestamoRepositoryImpl implements IPrestamoRepository {
     @Override
     public boolean estaEnPrestamo(String isbn) {
         return almacen.containsKey(isbn);
+    }
+
+    @Override
+    public void devolver(String isbn, Devolucion devolucion) {
+        almacen.remove(isbn);
+        historial.add(devolucion);
+    }
+
+    @Override
+    public List<Devolucion> buscarHistorial() {
+        return new ArrayList<>(historial);
     }
 }

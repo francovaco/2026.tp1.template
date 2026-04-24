@@ -4,12 +4,14 @@ import com.bibliotech.exception.BibliotecaException;
 import com.bibliotech.exception.LibroNoDisponibleException;
 import com.bibliotech.exception.LimitePrestamoException;
 import com.bibliotech.exception.SocioNoEncontradoException;
+import com.bibliotech.model.Devolucion;
 import com.bibliotech.model.Prestamo;
 import com.bibliotech.model.Socio;
 import com.bibliotech.repository.ILibroRepository;
 import com.bibliotech.repository.IPrestamoRepository;
 import com.bibliotech.repository.ISocioRepository;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class PrestamoService {
@@ -46,5 +48,21 @@ public class PrestamoService {
 
     public List<Prestamo> listarPrestamosDelSocio(int dniSocio) {
         return prestamoRepo.buscarPorDni(dniSocio);
+    }
+
+    public Devolucion registrarDevolucion(String isbn) throws BibliotecaException {
+        Prestamo prestamo = prestamoRepo.buscarPorId(isbn)
+                .orElseThrow(() -> new LibroNoDisponibleException(isbn));
+
+        LocalDate hoy = LocalDate.now();
+        long diasRetraso = Math.max(0, ChronoUnit.DAYS.between(prestamo.fechaLimite(), hoy));
+
+        Devolucion devolucion = new Devolucion(isbn, prestamo.dniSocio(), prestamo.fechaInicio(), prestamo.fechaLimite(), hoy, diasRetraso);
+        prestamoRepo.devolver(isbn, devolucion);
+        return devolucion;
+    }
+
+    public List<Devolucion> listarHistorial() {
+        return prestamoRepo.buscarHistorial();
     }
 }
