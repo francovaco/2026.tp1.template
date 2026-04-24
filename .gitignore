@@ -37,7 +37,6 @@ out/
 .settings
 .springBeans
 .sts4-cache
-issues-y-milestones.md
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
