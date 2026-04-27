@@ -1,5 +1,8 @@
 package com.bibliotech.service;
 
+import com.bibliotech.exception.BibliotecaException;
+import com.bibliotech.exception.DniDuplicadoException;
+import com.bibliotech.exception.EmailInvalidoException;
 import com.bibliotech.model.Socio;
 import com.bibliotech.repository.ISocioRepository;
 import java.util.List;
@@ -15,12 +18,12 @@ public class SocioService {
         this.repositorio = repositorio;
     }
 
-    public void registrar(Socio socio) {
+    public void registrar(Socio socio) throws BibliotecaException {
         if (repositorio.buscarPorId(socio.dni()).isPresent()) {
-            throw new IllegalArgumentException("Ya existe un socio con el DNI: " + socio.dni());
+            throw new DniDuplicadoException(socio.dni());
         }
         if (!EMAIL_PATTERN.matcher(socio.email()).matches()) {
-            throw new IllegalArgumentException("El email no tiene un formato válido: " + socio.email());
+            throw new EmailInvalidoException(socio.email());
         }
         repositorio.guardar(socio);
     }
