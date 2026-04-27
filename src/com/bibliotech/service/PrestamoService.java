@@ -46,10 +46,6 @@ public class PrestamoService {
         return prestamoRepo.buscarTodos();
     }
 
-    public List<Prestamo> listarPrestamosDelSocio(int dniSocio) {
-        return prestamoRepo.buscarPorDni(dniSocio);
-    }
-
     public Devolucion registrarDevolucion(String isbn) throws BibliotecaException {
         Prestamo prestamo = prestamoRepo.buscarPorId(isbn)
                 .orElseThrow(() -> new LibroNoDisponibleException(isbn));

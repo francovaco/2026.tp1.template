@@ -21,10 +21,4 @@ public class SocioRepositoryImpl implements ISocioRepository {
         return new ArrayList<>(almacen.values());
     }
 
-    @Override
-    public Optional<Socio> buscarPorEmail(String email) {
-        return almacen.values().stream()
-                .filter(s -> s.email().equalsIgnoreCase(email))
-                .findFirst();
-    }
 }

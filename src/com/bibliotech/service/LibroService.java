@@ -4,7 +4,6 @@ import com.bibliotech.model.Categoria;
 import com.bibliotech.model.Recurso;
 import com.bibliotech.repository.ILibroRepository;
 import java.util.List;
-import java.util.Optional;
 
 public class LibroService {
     private final ILibroRepository repositorio;
@@ -15,10 +14,6 @@ public class LibroService {
 
     public void registrar(Recurso recurso) {
         repositorio.guardar(recurso);
-    }
-
-    public Optional<Recurso> buscarPorIsbn(String isbn) {
-        return repositorio.buscarPorId(isbn);
     }
 
     public List<Recurso> buscarPorTitulo(String titulo) {

@@ -128,7 +128,7 @@ public class Main {
             Socio socio = esDocente ? new Docente(dni, nombre, email) : new Estudiante(dni, nombre, email);
             socioService.registrar(socio);
             System.out.println((esDocente ? "Docente" : "Estudiante") + " registrado.");
-        } catch (IllegalArgumentException e) {
+        } catch (BibliotecaException e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
